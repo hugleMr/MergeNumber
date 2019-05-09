@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0AD48EA2228493AD00FB2D13 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD48EA1228493AD00FB2D13 /* background.png */; };
+		0AD48EA3228493AD00FB2D13 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0AD48EA1228493AD00FB2D13 /* background.png */; };
+		0AD48EA52284ACF500FB2D13 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 0AD48EA42284ACF500FB2D13 /* sounds */; };
+		0AD48EA62284ACF500FB2D13 /* sounds in Resources */ = {isa = PBXBuildFile; fileRef = 0AD48EA42284ACF500FB2D13 /* sounds */; };
 		1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FAF9180E9839004C840B /* libcocos2d Mac.a */; };
 		1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1AC6FB07180E9839004C840B /* libcocos2d iOS.a */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
@@ -61,8 +65,6 @@
 		ED545A7E1B68A1FA00C3958E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ED545A7D1B68A1FA00C3958E /* libiconv.dylib */; };
 		F95A4456227FF5AE00CC9A15 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95A4454227FF5AE00CC9A15 /* Main.cpp */; };
 		F95A445922801DB900CC9A15 /* Main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95A4454227FF5AE00CC9A15 /* Main.cpp */; };
-		F95A445D228022A900CC9A15 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F95A445C228022A900CC9A15 /* background.png */; };
-		F95A445E228022A900CC9A15 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = F95A445C228022A900CC9A15 /* background.png */; };
 		F95A4463228023B500CC9A15 /* board.png in Resources */ = {isa = PBXBuildFile; fileRef = F95A4462228023B500CC9A15 /* board.png */; };
 		F95A4464228023B500CC9A15 /* board.png in Resources */ = {isa = PBXBuildFile; fileRef = F95A4462228023B500CC9A15 /* board.png */; };
 		F95A44682280275100CC9A15 /* TextureBlur.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F95A44662280275100CC9A15 /* TextureBlur.cpp */; };
@@ -113,6 +115,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0AD48EA1228493AD00FB2D13 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		0AD48EA42284ACF500FB2D13 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sounds; sourceTree = "<group>"; };
 		1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = cocos2d_libs.xcodeproj; path = ../cocos2d/build/cocos2d_libs.xcodeproj; sourceTree = "<group>"; };
 		1ACB3243164770DE00914215 /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = ../../cocos2dx/platform/third_party/ios/libraries/libcurl.a; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -169,7 +173,6 @@
 		ED545A7D1B68A1FA00C3958E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		F95A4454227FF5AE00CC9A15 /* Main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Main.cpp; sourceTree = "<group>"; };
 		F95A4455227FF5AE00CC9A15 /* Main.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Main.hpp; sourceTree = "<group>"; };
-		F95A445C228022A900CC9A15 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = background.png; path = ../../../../../../../Users/tech4/Desktop/mergenumbers/background.png; sourceTree = "<group>"; };
 		F95A4462228023B500CC9A15 /* board.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = board.png; sourceTree = "<group>"; };
 		F95A4465228026F600CC9A15 /* TextureBlur.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = TextureBlur.fsh; sourceTree = "<group>"; };
 		F95A44662280275100CC9A15 /* TextureBlur.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TextureBlur.cpp; sourceTree = "<group>"; };
@@ -302,12 +305,13 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0AD48EA42284ACF500FB2D13 /* sounds */,
+				0AD48EA1228493AD00FB2D13 /* background.png */,
 				F95A447D22812B5200CC9A15 /* sprites.plist */,
 				F95A447E22812B5200CC9A15 /* sprites.png */,
 				F95A44752280321B00CC9A15 /* item_bg.png */,
 				F95A4462228023B500CC9A15 /* board.png */,
 				F95A4472228031C900CC9A15 /* home_item.png */,
-				F95A445C228022A900CC9A15 /* background.png */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 			);
 			name = Resources;
@@ -425,6 +429,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0500;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = M2E6AM7L4J;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "MergeNumber" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -488,14 +497,15 @@
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
+				0AD48EA52284ACF500FB2D13 /* sounds in Resources */,
 				F95A446A22802A1F00CC9A15 /* TextureBlur.fsh in Resources */,
+				0AD48EA2228493AD00FB2D13 /* background.png in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
-				F95A445D228022A900CC9A15 /* background.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
@@ -507,14 +517,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AD48EA62284ACF500FB2D13 /* sounds in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				F95A448222812B5200CC9A15 /* sprites.png in Resources */,
 				F95A448022812B5200CC9A15 /* sprites.plist in Resources */,
 				F95A446B22802A1F00CC9A15 /* TextureBlur.fsh in Resources */,
-				F95A445E228022A900CC9A15 /* background.png in Resources */,
 				F95A4464228023B500CC9A15 /* board.png in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 				F95A44772280321B00CC9A15 /* item_bg.png in Resources */,
+				0AD48EA3228493AD00FB2D13 /* background.png in Resources */,
 				F95A4474228031C900CC9A15 /* home_item.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,6 +581,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = M2E6AM7L4J;
 				ENABLE_BITCODE = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
@@ -607,6 +619,7 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = M2E6AM7L4J;
 				ENABLE_BITCODE = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

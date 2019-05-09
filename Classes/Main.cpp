@@ -7,29 +7,21 @@
 
 #include "Main.hpp"
 #include "TextureBlur.hpp"
+#include "SimpleAudioEngine.h"
+using namespace CocosDenshion;
 
 USING_NS_CC;
 
 Scene* Main::createScene()
 {
-    // 'scene' is an autorelease object
     auto scene = Scene::create();
-    
-    // 'layer' is an autorelease object
     auto layer = Main::create();
-    
-    // add layer as a child to scene
     scene->addChild(layer);
-    
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool Main::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !Layer::init() )
     {
         return false;
@@ -76,12 +68,12 @@ bool Main::init()
         padding_score = home_item_bg->getContentSize().height*2;
     }
     
-    auto lbl_score = Label::createWithTTF("0", "fonts/Arial.ttf", padding_score*0.5);
+    lbl_score = Label::createWithTTF("0", "fonts/Arial.ttf", padding_score*0.5);
     lbl_score->enableOutline(Color4B::YELLOW,2);
     lbl_score->setPosition(origin + Vec2(padding_score,visibleSize.height/2));
     this->addChild(lbl_score);
     
-    auto lbl_h_score = Label::createWithTTF("0", "fonts/Arial.ttf", home_item_bg->getContentSize().height);
+    lbl_h_score = Label::createWithTTF(StringUtils::format("%d",getHighScore()), "fonts/Arial.ttf", home_item_bg->getContentSize().height);
     lbl_h_score->enableOutline(Color4B::YELLOW,2);
     lbl_h_score->setPosition(origin + Vec2(visibleSize.width - padding_score,visibleSize.height/2));
     this->addChild(lbl_h_score);
@@ -101,8 +93,9 @@ bool Main::init()
         auto item = Item::createItemView(i,-1);
         item->setTag(i + 100);
         float padding = size.width/5 - 4*item->getContentSize().width/5;
-        item->setPosition(board->getPosition() + Vec2((x - 1.5)*item->getContentSize().width + (x - 1.5)*padding,
-                                                      size.height*0.1 + (y - 1.5)*item->getContentSize().height + (y - 1.5)*padding));
+        item->setPosition(board->getPosition() +
+                          Vec2((x - 1.5)*item->getContentSize().width + (x - 1.5)*padding,
+                               size.height*0.1 + (y - 1.5)*item->getContentSize().height + (y - 1.5)*padding));
         this->addChild(item);
         list_item.push_back(item);
     }
@@ -112,6 +105,17 @@ bool Main::init()
     return true;
 }
 
+int Main::getHighScore(){
+    return UserDefault::getInstance()->getIntegerForKey("h_score",0);
+}
+
+void Main::updateHighScore(){
+    if(score > this->getHighScore()){
+        lbl_h_score->setString(StringUtils::format("%d",score));
+        UserDefault::getInstance()->setIntegerForKey("h_score",score);
+    }
+}
+
 void Main::onEventMove(int value,float x,float y,bool isMoveEnded){
     Vec2 pt = Vec2(x,y);
     int current_index = -1;
@@ -119,17 +123,24 @@ void Main::onEventMove(int value,float x,float y,bool isMoveEnded){
         if(item->getBoundingBox().containsPoint(pt)){
             item->setSpriteFrame("item_bg_highlight.png");
             current_index = item->getTag();
+            break;
         }else{
             item->setSpriteFrame("item_bg.png");
         }
     }
     
     if(isMoveEnded){
+        countMerge = 0;
         if(current_index < 0){
             item_select->runAction(MoveTo::create(0.2, this->getOriginPostion()));
         }else{
-            createItem(current_index);
+            CCLOG("current index : %d",current_index);
             item_select->setPosition(this->getOriginPostion());
+            
+            if(isAdded(current_index)){
+                return;
+            }
+            createItem(current_index);
             checkMerge(current_index);
         }
     }
@@ -165,25 +176,80 @@ void Main::findListItemNeighbor(int index){
         auto item7 = getItemOnBoard(x - 1,y - 1);
         auto item8 = getItemOnBoard(x - 1,y + 1);
         
-        if(item1 != nullptr) list_item_neighbor.push_back(item1);
-        if(item2 != nullptr) list_item_neighbor.push_back(item2);
-        if(item3 != nullptr) list_item_neighbor.push_back(item3);
-        if(item4 != nullptr) list_item_neighbor.push_back(item4);
-        if(item5 != nullptr) list_item_neighbor.push_back(item4);
-        if(item6 != nullptr) list_item_neighbor.push_back(item6);
-        if(item7 != nullptr) list_item_neighbor.push_back(item7);
-        if(item8 != nullptr) list_item_neighbor.push_back(item8);
+        if(item1 != nullptr && item1->getValue() >= 0) list_item_neighbor.push_back(item1);
+        if(item2 != nullptr && item2->getValue() >= 0) list_item_neighbor.push_back(item2);
+        if(item3 != nullptr && item3->getValue() >= 0) list_item_neighbor.push_back(item3);
+        if(item4 != nullptr && item4->getValue() >= 0) list_item_neighbor.push_back(item4);
+        if(item5 != nullptr && item5->getValue() >= 0) list_item_neighbor.push_back(item5);
+        if(item6 != nullptr && item6->getValue() >= 0) list_item_neighbor.push_back(item6);
+        if(item7 != nullptr && item7->getValue() >= 0) list_item_neighbor.push_back(item7);
+        if(item8 != nullptr && item8->getValue() >= 0) list_item_neighbor.push_back(item8);
     }
+}
+
+void Main::onMergeNeighborToCurItemCompleted(int index){
+    auto item = list_item.at(index);
+    item->stopAllActions();
+    item->setScale(1);
+    
+    auto scale = ScaleBy::create(0.15, 1.075);
+    item->runAction(Sequence::create(scale,scale->reverse(), NULL));
+    
+    countMerge++;
+    if(countMerge > 3) countMerge = 3;
+    SimpleAudioEngine::getInstance()->playEffect(StringUtils::format("sounds/merge_%d.mp3",countMerge).c_str(),
+                                                 false, 1.0f, 1.0f, 1.0f);
+    
+    item->upgradeValue();
+    checkMerge(index);
 }
 
 void Main::checkMerge(int index){
     findListItemNeighbor(index);
+    vector<Item*> list_merge;
+    int value = list_item.at(index)->getValue();
+    for(Item* item : list_item_neighbor){
+        if(item->getValue() == value){
+            list_merge.push_back(item);
+        }
+    }
+    
+    if(list_merge.size() == 0){
+        return;
+    }
+    
+    for(Item* item : list_merge){
+        auto move = MoveTo::create(0.2, list_item.at(index)->getPosition());
+        
+        auto new_item = Item::createItemView(item->getIndex(), item->getValue());
+        new_item->setPosition(item->getPosition());
+        this->addChild(new_item);
+        
+        new_item->runAction(Sequence::create(move,RemoveSelf::create(), NULL));
+        
+        item->setValue(-1);
+        item->updateItem();
+    }
+    
+    auto score_bonus = ((int)list_merge.size())*value;
+    score += score_bonus;
+    lbl_score->setString(StringUtils::format("%d",score));
+    this->updateHighScore();
+    
+    SimpleAudioEngine::getInstance()->playEffect("sounds/move.wav", false, 1.0f, 1.0f, 1.0f);
+    
+    auto delay = DelayTime::create(0.2 + 0.075);
+    int index_ = index;
+    auto callfunc = CallFunc::create([=](){
+        this->onMergeNeighborToCurItemCompleted(index_);
+    });
+    this->runAction(Sequence::create(delay,callfunc, NULL));
+    
+    CCLOG("======");
 }
 
 void Main::createItem(int index){
-    if(isAdded(index)){
-        return;
-    }
+    CCLOG("created!");
     
     list_item.at(index)->setValue(item_select->getValue());
     list_item.at(index)->updateItem();
@@ -211,35 +277,8 @@ int Main::getCurMaxValueOnBoard(){
 }
 
 bool Main::isAdded(int index){
-    vector<int> list_index;
-    for(Item* item : list_item){
-        if(item->getValue() != -1){
-            list_index.push_back(item->getValue());
-        }
+    if(list_item.at(index)->getValue() < 0){
+        return false;
     }
-    if(std::find(list_index.begin(), list_index.end(), index) != list_index.end()){
-        return true;
-    }
-    return false;
-}
-
-void Main::menuCloseCallback(Ref* pSender)
-{
-    Director::getInstance()->end();
-    
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
-    exit(0);
-#endif
-}
-
-void Main::completionCallback(const std::string& name) {
-    Size visibleSize = Director::getInstance()->getVisibleSize();
-    Vec2 origin = Director::getInstance()->getVisibleOrigin();
-    
-    auto background = Sprite::create(name);
-    background->setScaleX(visibleSize.width/background->getContentSize().width);
-    background->setScaleY(visibleSize.height/background->getContentSize().height);
-    background->setContentSize(visibleSize);
-    background->setPosition(origin + visibleSize/2);
-    this->addChild(background);
+    return true;
 }

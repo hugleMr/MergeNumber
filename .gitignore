@@ -1,3 +1,7 @@
+.DS_Store
+*/.DS_Store
+proj.ios_mac/MergeNumber.xcodeproj/xcuserdata/hungle.xcuserdatad/*
+proj.ios_mac/MergeNumber.xcodeproj/project.xcworkspace/xcuserdata/hungle.xcuserdatad/*
 proj.android/*
 proj.linux/*
 proj.win10/*

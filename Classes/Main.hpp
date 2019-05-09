@@ -21,12 +21,8 @@ public:
     
     virtual bool init();
     virtual void onEventMove(int value,float x,float y,bool moved = false);
+    void onMergeNeighborToCurItemCompleted(int index);
     
-    // a selector callback
-    void menuCloseCallback(cocos2d::Ref* pSender);
-    void completionCallback(const std::string& name);
-    
-    // implement the "static create()" method manually
     CREATE_FUNC(Main);
     
     CC_SYNTHESIZE(cocos2d::Vec2, _originPostion, OriginPostion);
@@ -39,6 +35,9 @@ public:
     void generateNextItemValue();
     int getCurMaxValueOnBoard();
     
+    void updateHighScore();
+    int getHighScore();
+    
     std::vector<Item*> list_item_neighbor;
     std::vector<Item*> list_item;
     std::vector<cocos2d::Sprite*> list_bg;
@@ -47,9 +46,15 @@ public:
     Item* item_select;
     cocos2d::Sprite* board;
     
+    Label* lbl_score;
+    Label* lbl_h_score;
+    
+    int countMerge = 0;
     int currentValue = 2;
     int nextValue = 2;
     int maxRandomValue = 2;
+    
+    int score = 0;
 };
 
 #endif /* Main_hpp */
